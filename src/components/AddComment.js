@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import commentServices from '../services/commentServices';
 
-export function AddComment({ handleAddComment }) {
+export default function AddComment({ handleAddComment }) {
 	const toast = useToast();
 	const [values, setValues] = useState({
 		name: '',
@@ -59,7 +59,7 @@ export function AddComment({ handleAddComment }) {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<VStack spacing={8}>
+			<VStack spacing={8} align="flex-start" >
 				<FormControl>
 					<FormLabel htmlFor="name"> Name</FormLabel>
 					<Input

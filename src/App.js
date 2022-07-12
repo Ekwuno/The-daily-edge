@@ -1,5 +1,6 @@
 import { ChakraProvider, Container, Heading } from "@chakra-ui/react";
-import { AddComment } from "./components/AddComment";
+import  AddComment  from "./components/AddComment";
+import CommentSection from "./components/CommentSection";
 import { theme } from "./theme";
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
       <Heading as="h2" size="2xl">
        The Daily Edge
       </Heading>
-<AddComment/>
+      <CommentSection/>
     </Container>
   </ChakraProvider>
   );
