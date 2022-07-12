@@ -13,6 +13,7 @@ class CommentServices {
             },
             body: JSON.stringify(comment)
         });
+        //Parse the response as JSON
         const data = await response.json();
         return data;
     }

@@ -19,6 +19,7 @@ export function AddComment({ handleAddComment }) {
 	});
 
 	const handleChange = e => {
+		console.log(values)
 		setValues({
 			...values,
 			[e.target.name]: e.target.value,
@@ -28,13 +29,22 @@ export function AddComment({ handleAddComment }) {
 	const handleSubmit = async e => {
 		e.preventDefault();
 		try {
-			const comment = await commentServices.postComment(values);
-			handleAddComment(comment);
+			await commentServices.postComment(values);
+			// handleAddComment(comment);
 			setValues({ 
 				name: '',
 			    comment: ''
 			 });
+			toast({ 
+				title: 'Comment added',
+				description: 'Your comment has been added',
+				status: 'success',
+				duration: 9000,
+				isClosable: true,
+				position: 'top-right',
+			});
 		} catch (error) {
+			console.log(error.message);
 			toast({
 				title: 'Error adding comment',
 				description: 'Something went wrong',
