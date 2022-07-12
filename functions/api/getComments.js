@@ -7,15 +7,15 @@ export async function onRequestGet({ request, env }) {
 				return JSON.parse(comment);
 			})
 		);
-        return new Response(JSON.stringify(comments),{
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+		return new Response(JSON.stringify(comments), {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
 	} catch (error) {
 		return new Response(error.message, {
-            status: 500,
-            error: error.message,
-        })
+			status: 500,
+			error: error.message,
+		});
 	}
 }

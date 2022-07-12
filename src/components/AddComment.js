@@ -29,8 +29,8 @@ export default function AddComment({ handleAddComment }) {
 	const handleSubmit = async e => {
 		e.preventDefault();
 		try {
-			await commentServices.postComment(values);
-			// handleAddComment(comment);
+			const comment = await commentServices.postComment(values);
+			handleAddComment(comment);
 			setValues({ 
 				name: '',
 			    comment: ''
