@@ -1,9 +1,9 @@
 class CommentServices {
-    // async getComments(){
-    //     const response = await fetch("");
-    //     const data = await response.json();
-    //     return data;
-    // }
+    async getComments() {
+        const response = await fetch("/api/getComments");
+        const data = await response.json();
+        return data;
+      }
 
     async postComment(comment){
         const response = await fetch("/api/form", {
