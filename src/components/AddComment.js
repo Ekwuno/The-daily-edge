@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
 	FormControl,
 	FormLabel,
@@ -9,28 +9,42 @@ import {
 	Button,
 	useToast,
 } from '@chakra-ui/react';
+import commentServices from '../services/commentServices';
 
-export function AddComment({ handleComment }) {
-	const Toast = useToast();
+export function AddComment({ handleAddComment }) {
+	const toast = useToast();
 	const [values, setValues] = useState({
 		name: '',
-		value: '',
+		comment: '',
 	});
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		try {
-			// Toast.success("Comment added successfully"); also add link to send request to page function
-		} catch (error) {
-			Toast.error('Error adding comment');
-		}
-	};
-
-	const handleChange = (e) => {
+	const handleChange = e => {
 		setValues({
 			...values,
-			[e.target.name]: e.target.value, // More context?? 
+			[e.target.name]: e.target.value,
 		});
+	};
+
+	const handleSubmit = async e => {
+		e.preventDefault();
+		try {
+			const comment = await commentServices.postComment(values);
+			handleAddComment(comment);
+			setValues({ 
+				name: '',
+			    comment: ''
+			 });
+		} catch (error) {
+			toast({
+				title: 'Error adding comment',
+				description: 'Something went wrong',
+				variant: 'left-accent',
+				position: 'top-right',
+				status: 'error',
+				duration: 4000,
+				isClosable: true,
+			});
+		}
 	};
 
 	return (
@@ -63,7 +77,7 @@ export function AddComment({ handleComment }) {
 						Make the comment as long as you'd like
 					</FormHelperText>
 				</FormControl>
-                <Button type="submit">Send</Button>
+				<Button type="submit">Send</Button>
 			</VStack>
 		</form>
 	);

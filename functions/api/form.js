@@ -7,7 +7,7 @@ export async function onRequestPost({ request, env }) {
 		await env.comment_store.put(uuid, form, {
 			metadata: { createdAt: new Date() },
 		});
-		return new Response(JSON.stringify(response), {
+		return new Response(response, {
 			headers: {
 				'Content-Type': 'application/json;charset=utf-8',
 			},
