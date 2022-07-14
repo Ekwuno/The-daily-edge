@@ -4,7 +4,7 @@ export async function onRequestPost({ request, env }) {
 	  const uuid = crypto.randomUUID();
 	  const pretty = JSON.stringify({ uuid, ...input }, null, 2);
   
-	  await env.comment_store.put(uuid, pretty, {
+	  await env.comment_db.put(uuid, pretty, {
 		metadata: { createdAt: Date.now() },
 	  });
 	  return new Response(pretty, {

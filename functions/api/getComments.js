@@ -1,9 +1,9 @@
 export async function onRequestGet({ request, env }) {
 	try {
-		const value = await env.comment_store.list();
+		const value = await env.comment_db.list();
 		const comments = await Promise.all(
 			value.keys.map(async (key) => {
-				const comment = await env.comment_store.get(key.name);
+				const comment = await env.comment_db.get(key.name);
 				return JSON.parse(comment);
 			})
 		);
