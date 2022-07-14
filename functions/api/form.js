@@ -1,21 +1,22 @@
 export async function onRequestPost({ request, env }) {
 	try {
-		const response = await request.json(); // Parse the response as JSON
-		const uuid = crypto.randomUUID();
-		const formResponse= JSON.stringify({ uuid, ...response }, null, 2);
-
-		await env.comment_store.put(uuid, formResponse, {
-			metadata: { createdAt: Date.now() },
-		});
-		return new Response(formResponse, {
-			headers: {
-				'Content-Type': 'application/json;charset=utf-8',
-			},
-		});
+	  const input = await request.json();
+	  const uuid = crypto.randomUUID();
+	  const pretty = JSON.stringify({ uuid, ...input }, null, 2);
+  
+	  await env.comment_store.put(uuid, pretty, {
+		metadata: { createdAt: Date.now() },
+	  });
+	  return new Response(pretty, {
+		headers: {
+		  "Content-Type": "application/json;charset=utf-8",
+		},
+	  });
 	} catch (err) {
-		return new Response('Error parsing JSON content', {
-			status: 400,
-			error: err,
-		});
+	  return new Response("Error parsing JSON content", {
+		status: 400,
+		error: err,
+	  });
 	}
-}
+  }
+  
