@@ -18,6 +18,19 @@ class CommentServices {
         return data;
     }
 
+    async updateComment(comment){
+        const response = await fetch("/api/updateComment", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8",
+            },
+            body: JSON.stringify(comment)
+        });
+        //Parse the response as JSON
+        const data = await response.json();
+        return data;
+    }
+
 }
 
 export default new CommentServices();
