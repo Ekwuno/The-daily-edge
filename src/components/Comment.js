@@ -90,7 +90,7 @@ const Comment = ({ comment }) => {
 					<ModalHeader>Edit Comment</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
-						<FormControl>
+						<FormControl isRequired>
 							<FormLabel htmlFor="name">Name</FormLabel>
 							<Input
 								id="name"
@@ -100,7 +100,7 @@ const Comment = ({ comment }) => {
 								onChange={handleChange}
 							/>
 						</FormControl>
-						<FormControl>
+						<FormControl isRequired>
 							<FormLabel htmlFor="comment">Comment</FormLabel>
 							<Textarea
 								id="comment"

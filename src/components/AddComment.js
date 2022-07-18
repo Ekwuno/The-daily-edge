@@ -17,24 +17,24 @@ export default function AddComment({ handleAddComment }) {
 		name: '',
 		comment: '',
 		likes: 0,
-	}
+	};
 	const [values, setValues] = useState(initialState);
 
-	const handleChange = e => {
-		console.log(values)
+	const handleChange = (e) => {
+		console.log(values);
 		setValues({
 			...values,
 			[e.target.name]: e.target.value,
 		});
 	};
 
-	const handleSubmit = async e => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
 			const comment = await commentServices.postComment(values);
 			handleAddComment(comment);
 			setValues(initialState);
-			toast({ 
+			toast({
 				title: 'Comment added',
 				description: 'Your comment has been added',
 				status: 'success',
@@ -58,8 +58,8 @@ export default function AddComment({ handleAddComment }) {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<VStack spacing={8} align="flex-start" >
-				<FormControl>
+			<VStack spacing={8} align="flex-start">
+				<FormControl isRequired>
 					<FormLabel htmlFor="name"> Name</FormLabel>
 					<Input
 						id="name"
@@ -71,7 +71,7 @@ export default function AddComment({ handleAddComment }) {
 					/>
 				</FormControl>
 
-				<FormControl>
+				<FormControl isRequired>
 					<FormLabel htmlFor="comment"> Comment</FormLabel>
 					<Textarea
 						id="comment"
