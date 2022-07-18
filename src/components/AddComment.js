@@ -13,10 +13,12 @@ import commentServices from '../services/commentServices';
 
 export default function AddComment({ handleAddComment }) {
 	const toast = useToast();
-	const [values, setValues] = useState({
+	const initialState = {
 		name: '',
 		comment: '',
-	});
+		likes: 0,
+	}
+	const [values, setValues] = useState(initialState);
 
 	const handleChange = e => {
 		console.log(values)
@@ -31,10 +33,7 @@ export default function AddComment({ handleAddComment }) {
 		try {
 			const comment = await commentServices.postComment(values);
 			handleAddComment(comment);
-			setValues({ 
-				name: '',
-			    comment: ''
-			 });
+			setValues(initialState);
 			toast({ 
 				title: 'Comment added',
 				description: 'Your comment has been added',
