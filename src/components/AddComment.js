@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
 	FormControl,
 	FormLabel,
@@ -8,20 +8,19 @@ import {
 	Textarea,
 	Button,
 	useToast,
-} from '@chakra-ui/react';
-import commentServices from '../services/commentServices';
+} from "@chakra-ui/react";
+import commentServices from "../services/commentServices";
 
 export default function AddComment({ handleAddComment }) {
 	const toast = useToast();
 	const initialState = {
-		name: '',
-		comment: '',
+		name: "",
+		comment: "",
 		likes: 0,
 	};
 	const [values, setValues] = useState(initialState);
 
 	const handleChange = (e) => {
-		console.log(values);
 		setValues({
 			...values,
 			[e.target.name]: e.target.value,
@@ -32,24 +31,24 @@ export default function AddComment({ handleAddComment }) {
 		e.preventDefault();
 		try {
 			const comment = await commentServices.postComment(values);
-			handleAddComment(comment);
+			handleAddComment(comment); //Add the comment to the list of exsiting comments
 			setValues(initialState);
 			toast({
-				title: 'Comment added',
-				description: 'Your comment has been added',
-				status: 'success',
+				title: "Comment added",
+				description: "Your comment has been added",
+				status: "success",
 				duration: 9000,
 				isClosable: true,
-				position: 'top-right',
+				position: "top-right",
 			});
 		} catch (error) {
 			console.log(error.message);
 			toast({
-				title: 'Error adding comment',
-				description: 'Something went wrong',
-				variant: 'left-accent',
-				position: 'top-right',
-				status: 'error',
+				title: "Error adding comment",
+				description: "Something went wrong",
+				variant: "left-accent",
+				position: "top-right",
+				status: "error",
 				duration: 4000,
 				isClosable: true,
 			});

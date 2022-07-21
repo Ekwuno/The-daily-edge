@@ -5,6 +5,8 @@ class CommentServices {
         return data;
       }
 
+      // The code below sends a POST request to the server to add a comment to the KV store which
+      // is then displayed in the CommentList component. 
     async postComment(comment){
         const response = await fetch("/api/form", {
             method: "POST",
@@ -15,7 +17,10 @@ class CommentServices {
         });
         //Parse the response as JSON
         const data = await response.json();
-        return data;
+        console.log("data", data); //This is the comment that was added to the KV store
+        return data; //This is the comment that was added to the KV store
+
+        
     }
 
     async updateComment(comment){
