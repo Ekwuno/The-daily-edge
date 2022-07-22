@@ -1,7 +1,7 @@
 export async function onRequest({ request, params, env }) {
 	try {
-        const { commentID, operation } = params;
-				let id = env.Learning_DurableObjects.idFromName(commentID); // Create a new unique ID
+        const { commentid, operation } = params;
+				let id = env.Learning_DurableObjects.idFromName(commentid); // Create a new unique ID
 				let stub = env.Learning_DurableObjects.get(id);
 				return stub.fetch(request);
         // return new Response(JSON.stringify(commentId, operation));
