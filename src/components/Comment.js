@@ -43,7 +43,7 @@ const Comment = ({ comment }) => {
 			await handleUpdateComment({ ...mainComment, likes });
 			setIsClicked((isClicked) => !isClicked);
 		} catch (error) {
-			console.log("error", error.message);
+			console.log("errors", error.message);
 		}
 	};
 
