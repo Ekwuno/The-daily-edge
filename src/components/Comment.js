@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
 	HStack,
 	Text,
@@ -17,9 +17,9 @@ import {
 	FormLabel,
 	FormControl,
 	Textarea,
-} from '@chakra-ui/react';
-import { AiFillLike, AiOutlineEdit, AiOutlineLike } from 'react-icons/ai';
-import commentServices from '../services/commentServices';
+} from "@chakra-ui/react";
+import { AiFillLike, AiOutlineEdit, AiOutlineLike } from "react-icons/ai";
+import commentServices from "../services/commentServices";
 
 const Comment = ({ comment }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,15 +32,19 @@ const Comment = ({ comment }) => {
 			setMainComment(updatedComment);
 			onClose();
 		} catch (error) {
-			console.log('error');
+			console.log("error");
 		}
 	};
 
 	const handleLikes = async () => {
-		let likes = mainComment.likes || 0;
-		isClicked ? likes-- : likes++;
-		await handleUpdateComment({ ...mainComment, likes });
-		setIsClicked((isClicked) => !isClicked);
+		try {
+			let operation = isClicked ? "decrement" : "increment";
+			const likes = await commentServices.updateLikesByID(mainComment.uuid, operation);
+			await handleUpdateComment({ ...mainComment, likes });
+			setIsClicked((isClicked) => !isClicked);
+		} catch (error) {
+			console.log("error", error.message);
+		}
 	};
 
 	const handleChange = (e) => {
