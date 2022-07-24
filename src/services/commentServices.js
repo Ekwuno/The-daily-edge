@@ -36,6 +36,14 @@ class CommentServices {
         return data;
     }
 
+    async updateLikesByID(commentID, operation){
+        const response = await fetch(`https://worker-durable.obinnacodes.workers.dev/${commentID}/${operation}`, {
+			method: 'POST'
+		});
+
+        return response;
+    }
+
 }
 
 export default new CommentServices();
