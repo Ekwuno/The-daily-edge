@@ -1,21 +1,34 @@
-import { ChakraProvider, Container, Heading } from '@chakra-ui/react';
+import { Box, Heading } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import CommentSection from './components/CommentSection';
-import { AuthProvider } from "react-auth-kit";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { theme } from './theme';
+import Navbar from './components/Navbar';
+import qs from 'query-string';
+import { useAuth } from './context/AuthContext';
 
 function App() {
+	const { login } = useAuth();
+
+	useEffect(() => {
+		const parsedQuery = qs.parseUrl(window.location.href);
+		const handleLogin = async () => {
+			await login();
+		};
+
+		if (parsedQuery.query.code) {
+			handleLogin();
+		}
+	}, []);
+
 	return (
-		<GoogleOAuthProvider clientId="667479857185-5e3gtvc9nd9br5htl9qhsf0ub0nape6t.apps.googleusercontent.com">
-			<ChakraProvider theme={theme}>
-				<Container maxW="container.lg" py={16} px={8} bg="white" minH="100vh">
-					<Heading as="h2" size="2xl">
-						The Daily Edge
-					</Heading>
-					<CommentSection />
-				</Container>
-			</ChakraProvider>
-		</GoogleOAuthProvider>
+		<>
+			<Navbar />
+			<Box px={8} py={16}>
+				<Heading as="h2" size="2xl">
+					The Daily Edge
+				</Heading>
+				<CommentSection />
+			</Box>
+		</>
 	);
 }
 
