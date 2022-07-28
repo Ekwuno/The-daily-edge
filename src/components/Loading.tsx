@@ -7,13 +7,13 @@ const ChakraBox = chakra(motion.div, {
 	shouldForwardProp: isValidMotionProp,
 });
 
-const Loading = () => {
+const Loading:React.FC = () => {
 	return (
 		<ChakraBox
 			as={Flex}
 			justify="center"
 			animate={{ rotate: 360 }}
-			transition={{ duration: 2 }}
+			// transition={{ duration: 2 }}
 		>
 			<Icon as={AiOutlineLoading3Quarters} />
 		</ChakraBox>
