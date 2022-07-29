@@ -4,10 +4,11 @@ import AddComment from './AddComment';
 import Loading from './Loading';
 import CommentList from './CommentList';
 import commentServices from '../services/commentServices';
+import { Comment, Comments } from 'types';
 
-export default function CommentSection() {
+const CommentSection: React.FC = () => {
 	const [loading, setloading] = useState(false);
-	const [comments, setComments] = useState([]);
+	const [comments, setComments] = useState<Comments>([]);
 
 	const handleFetchComments = async () => {
 		try {
@@ -21,7 +22,7 @@ export default function CommentSection() {
 		}
 	};
 
-	const handleAddComment = (comment) => {
+	const handleAddComment = (comment:Comment) => {
 		setComments([comment, ...comments]);
 	};
 
@@ -54,3 +55,5 @@ export default function CommentSection() {
 		</HStack>
 	);
 }
+
+export default CommentSection

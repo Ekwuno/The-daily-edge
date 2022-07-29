@@ -12,7 +12,7 @@ class AuthService {
 			headers: { 'Content-Type': 'application/json' },
 		});
 		const data = await response.json();
-		return data as User;
+		return data as { user: User};
 	}
 
 	getUser() {

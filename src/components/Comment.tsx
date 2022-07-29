@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
 	HStack,
 	Text,
@@ -17,14 +17,21 @@ import {
 	FormLabel,
 	FormControl,
 	Textarea,
-} from "@chakra-ui/react";
-import { AiFillLike, AiOutlineEdit, AiOutlineLike } from "react-icons/ai";
-import commentServices from "../services/commentServices";
+} from '@chakra-ui/react';
+import { AiFillLike, AiOutlineEdit, AiOutlineLike } from 'react-icons/ai';
+import commentServices from '../services/commentServices';
+import { Comment as CommentType, Operation } from 'types';
+import { useAuth } from 'context/AuthContext';
 
-const Comment = ({ comment }) => {
+interface Props {
+	comment: CommentType;
+}
+
+const Comment: React.FC<Props> = ({ comment }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [mainComment, setMainComment] = useState(comment);
 	const [isClicked, setIsClicked] = useState(false);
+	const { user } = useAuth();
 
 	const handleUpdateComment = async (comment = mainComment) => {
 		try {
@@ -32,25 +39,30 @@ const Comment = ({ comment }) => {
 			setMainComment(updatedComment);
 			onClose();
 		} catch (error) {
-			console.log("error");
+			console.log('error');
 		}
 	};
 
 	const handleLikes = async () => {
 		try {
-			let operation = isClicked ? "decrement" : "increment";
-			const likes = await commentServices.updateLikesByID(mainComment.uuid, operation);
+			let operation: Operation = isClicked ? 'decrement' : 'increment';
+			const likes = await commentServices.updateLikesByID(
+				mainComment.uuid,
+				operation
+			);
 			await handleUpdateComment({ ...mainComment, likes });
 			setIsClicked((isClicked) => !isClicked);
-		} catch (error) {
-			console.log("error", error.message);
+		} catch (error: any) {
+			console.log('error', error.message);
 		}
 	};
 
-	const handleChange = (e) => {
+	const handleChange = (
+		e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
+	) => {
 		setMainComment({
 			...mainComment,
-			[e.target.name]: e.target.value,
+			[e.currentTarget.name]: e.currentTarget.value,
 		});
 	};
 
@@ -64,7 +76,7 @@ const Comment = ({ comment }) => {
 			align="flex-start"
 		>
 			<HStack align="center" justify="space-between" width="100%">
-				<Text>{mainComment.comment}</Text>
+				<Text>{mainComment.message}</Text>
 				<IconButton
 					icon={<AiOutlineEdit size={15} />}
 					onClick={onOpen}
@@ -73,7 +85,7 @@ const Comment = ({ comment }) => {
 				/>
 			</HStack>
 			<Text as="i" fontSize="sm">
-				- {mainComment.name}
+				- {mainComment.user?.name}
 			</Text>
 			<HStack align="center" spacing={2}>
 				<IconButton
@@ -83,6 +95,7 @@ const Comment = ({ comment }) => {
 						isClicked ? <AiFillLike size={20} /> : <AiOutlineLike size={20} />
 					}
 					onClick={handleLikes}
+					disabled={!user}
 				/>
 				<Text color="gray.500" fontSize="sm">
 					{mainComment.likes} likes
@@ -100,17 +113,16 @@ const Comment = ({ comment }) => {
 								id="name"
 								name="name"
 								type="text"
-								value={mainComment.name}
+								value={mainComment.user?.name}
 								onChange={handleChange}
 							/>
 						</FormControl>
 						<FormControl isRequired>
-							<FormLabel htmlFor="comment">Comment</FormLabel>
+							<FormLabel htmlFor="message">Comment</FormLabel>
 							<Textarea
-								id="comment"
-								name="comment"
-								type="text"
-								value={mainComment.comment}
+								id="message"
+								name="message"
+								value={mainComment.message}
 								onChange={handleChange}
 							/>
 						</FormControl>

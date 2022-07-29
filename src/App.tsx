@@ -17,6 +17,7 @@ function App() {
 		if (parsedQuery.query.code) {
 			handleLogin();
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

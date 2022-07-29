@@ -1,5 +1,6 @@
 export interface Comment  {
- user: Partial<User>
+ user: User;
+ uuid: string;
  message: string;
  likes: number;
  comments: Comment[]
@@ -15,3 +16,5 @@ export type User = {
     id:number;
     avatar_url:string;
 }
+
+export type CreateCommentType = Omit<Comment, "uuid">

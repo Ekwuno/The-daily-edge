@@ -1,4 +1,4 @@
-import { Comment, Comments, Operation } from "types";
+import { Comment, Comments, CreateCommentType, Operation } from "types";
 
 class CommentServices {
 	async getComments() {
@@ -9,7 +9,7 @@ class CommentServices {
 
 	// The code below sends a POST request to the server to add a comment to the KV store which
 	// is then displayed in the CommentList component.
-	async postComment(comment:Comment) {
+	async postComment(comment:CreateCommentType) {
 		const response = await fetch("/api/form", {
 			method: "POST",
 			headers: {
@@ -40,7 +40,7 @@ class CommentServices {
 			`https://worker-durable.obinnacodes.workers.dev/${commentID}/${operation}`,
 		)
 		const data = await response.text();
-		return data;
+		return Number(data);
 	}
 }
 

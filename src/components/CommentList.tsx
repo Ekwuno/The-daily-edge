@@ -1,7 +1,12 @@
 import { Heading, VStack } from '@chakra-ui/react';
 import Comment from './Comment';
+import { Comments } from 'types';
 
-export default function CommentsList({ comments }) {
+interface Props {
+	comments: Comments;
+}
+
+const CommentsList:React.FC<Props>= ({ comments })=> {
 	return (
 		<VStack spacing={8} w="100%">
 			{comments.length === 0 ? (
@@ -14,3 +19,5 @@ export default function CommentsList({ comments }) {
 		</VStack>
 	);
 }
+
+export default CommentsList;

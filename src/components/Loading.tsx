@@ -1,22 +1,36 @@
 import React from 'react';
-import { chakra, Flex, Icon } from '@chakra-ui/react';
+import { chakra, Container, Icon } from '@chakra-ui/react';
 import { isValidMotionProp, motion } from 'framer-motion';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 const ChakraBox = chakra(motion.div, {
-	shouldForwardProp: isValidMotionProp,
+	shouldForwardProp: (prop) => isValidMotionProp(prop) || prop === 'children',
 });
 
-const Loading:React.FC = () => {
+const Loading: React.FC = () => {
 	return (
-		<ChakraBox
-			as={Flex}
-			justify="center"
-			animate={{ rotate: 360 }}
-			// transition={{ duration: 2 }}
+		<Container
+			h="100vh"
+			display="flex"
+			alignItems="center"
+			justifyContent="center"
 		>
-			<Icon as={AiOutlineLoading3Quarters} />
-		</ChakraBox>
+			<ChakraBox
+				margin="auto"
+				width="24px"
+				height="24px"
+				animate={{ rotate: 360 }}
+				// @ts-ignore
+				transition={{
+					duration: 56,
+					ease: 'easeInOut',
+					repeat: Infinity,
+					repeatType: 'loop',
+				}}
+			>
+				<Icon as={AiOutlineLoading3Quarters} w={24} h={24} />
+			</ChakraBox>
+		</Container>
 	);
 };
 
