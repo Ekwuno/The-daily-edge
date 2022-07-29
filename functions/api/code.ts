@@ -1,6 +1,6 @@
 import qs from 'query-string';
 
-export async function onRequestPost({ request, env }) {
+export const onRequestPost:({ request:Request, env:Env }) => Promise<Response> = async ({ request, env }) => {
 	try {
 		const body = await request.json();
 		const token = await exchangeCodeForToken(body.code, env);
@@ -22,7 +22,7 @@ export async function onRequestPost({ request, env }) {
 	}
 }
 
-async function exchangeCodeForToken(code, env) {
+async function exchangeCodeForToken(code:any, env:any) {
 	const TokenURL = env.TOKEN_ENDPOINT;
 	const oAuthQueryParams = {
 		grant_type: 'authorization_code',
@@ -44,7 +44,7 @@ async function exchangeCodeForToken(code, env) {
 	return parsedData.access_token;
 }
 
-async function fetchUser(token, env) {
+async function fetchUser(token:any, env:any) {
 	const userURL = env.RESOURCE_ENDPOINT + 'user';
 	const res = await fetch(userURL, {
 		headers: {
@@ -58,7 +58,7 @@ async function fetchUser(token, env) {
 	return data;
 }
 
-async function formatUserResponse(user) {
+async function formatUserResponse(user:any) {
 	return {
 		name: user.name,
 		id: user.id,
