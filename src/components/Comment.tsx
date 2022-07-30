@@ -4,19 +4,8 @@ import {
 	Text,
 	VStack,
 	IconButton,
-	Modal,
-	ModalOverlay,
-	ModalContent,
-	ModalHeader,
-	ModalFooter,
-	ModalBody,
-	ModalCloseButton,
 	useDisclosure,
 	Button,
-	Input,
-	FormLabel,
-	FormControl,
-	Textarea,
 	Image,
 	Icon,
 } from '@chakra-ui/react';
@@ -26,6 +15,7 @@ import { FaRegComment } from 'react-icons/fa';
 import commentServices from '../services/commentServices';
 import { Comment as CommentType, Operation } from 'types';
 import { useAuth } from 'context/AuthContext';
+import CommentDetail from './CommentDetail';
 
 type ButtonProps = {
 	icon: React.ReactNode;
@@ -61,12 +51,12 @@ const Comment: React.FC<Props> = ({ comment }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [mainComment, setMainComment] = useState(comment);
 	const { user } = useAuth();
+	const btnRef = React.useRef<HTMLButtonElement>(null);
 
 	const handleUpdateComment = async (comment = mainComment) => {
 		try {
 			const updatedComment = await commentServices.updateComment(comment);
 			setMainComment(updatedComment);
-			onClose();
 		} catch (error) {
 			console.log('error');
 		}
@@ -89,15 +79,6 @@ const Comment: React.FC<Props> = ({ comment }) => {
 		} catch (error: any) {
 			console.log('error', error.message);
 		}
-	};
-
-	const handleChange = (
-		e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
-		setMainComment({
-			...mainComment,
-			[e.currentTarget.name]: e.currentTarget.value,
-		});
 	};
 
 	return (
@@ -125,13 +106,14 @@ const Comment: React.FC<Props> = ({ comment }) => {
 					</VStack>
 				</HStack>
 				<IconButton
+					ref={btnRef}
 					icon={<BiExpand size={15} />}
 					onClick={onOpen}
 					aria-label="Edit button"
 					variant="unstyled"
 				/>
 			</HStack>
-			<Text my={8} fontSize="sm" width="80%">
+			<Text my={8} fontSize="sm" width="80%" noOfLines={2}>
 				{mainComment.message}
 			</Text>
 			<HStack align="center" spacing={4}>
@@ -153,43 +135,13 @@ const Comment: React.FC<Props> = ({ comment }) => {
 					disabled={false}
 				/>
 			</HStack>
-			<Modal isOpen={isOpen} onClose={onClose}>
-				<ModalOverlay />
-				<ModalContent>
-					<ModalHeader>Edit Comment</ModalHeader>
-					<ModalCloseButton />
-					<ModalBody>
-						<FormControl isRequired>
-							<FormLabel htmlFor="name">Name</FormLabel>
-							<Input
-								id="name"
-								name="name"
-								type="text"
-								value={mainComment.user?.name}
-								onChange={handleChange}
-							/>
-						</FormControl>
-						<FormControl isRequired>
-							<FormLabel htmlFor="message">Comment</FormLabel>
-							<Textarea
-								id="message"
-								name="message"
-								value={mainComment.message}
-								onChange={handleChange}
-							/>
-						</FormControl>
-					</ModalBody>
-
-					<ModalFooter>
-						<Button colorScheme="blue" mr={3} onClick={onClose}>
-							Close
-						</Button>
-						<Button variant="ghost" onClick={() => handleUpdateComment()}>
-							Save
-						</Button>
-					</ModalFooter>
-				</ModalContent>
-			</Modal>
+			<CommentDetail
+				isOpen={isOpen}
+				onClose={onClose}
+				btnRef={btnRef}
+				handleUpdateComment={handleUpdateComment}
+				comment={mainComment}
+			/>
 		</VStack>
 	);
 };
