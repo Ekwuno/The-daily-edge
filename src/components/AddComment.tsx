@@ -5,13 +5,13 @@ import {
 	FormHelperText,
 	VStack,
 	Textarea,
-	Button,
 	useToast,
 } from '@chakra-ui/react';
 import commentServices from 'services/commentServices';
 import { Comment } from 'types';
 import { useAuth } from 'context/AuthContext';
 import Loading from './Loading';
+import Button from './shared/Button';
 
 interface Props {
 	handleAddComment: (comment: Comment) => void;
@@ -82,6 +82,7 @@ const AddComment: React.FC<Props> = ({ handleAddComment }) => {
 						id="message"
 						name="message"
 						placeholder="Share you thoughts with us"
+						maxLength={80}
 						height={40}
 						value={values.message}
 						onChange={handleChange}

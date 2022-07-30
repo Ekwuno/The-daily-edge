@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Flex, Icon, Image, Link } from '@chakra-ui/react';
+import { Flex, Icon, Image, Link } from '@chakra-ui/react';
 import { AiFillGithub } from 'react-icons/ai';
 import { MdLogout } from 'react-icons/md';
 import { useAuth } from '../context/AuthContext';
 import { getFormattedGithubUrl } from '../utils/urlFormatter';
+import Button from './shared/Button';
 
 const Navbar: React.FC = () => {
 	const { user, logout } = useAuth();
@@ -45,6 +46,7 @@ const Navbar: React.FC = () => {
 			) : (
 				<Button
 					as={Link}
+					//@ts-ignore
 					href={getFormattedGithubUrl()}
 					backgroundColor="black"
 					sx={{

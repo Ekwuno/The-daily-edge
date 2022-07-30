@@ -28,7 +28,7 @@ const Loading: React.FC = () => {
 					repeatType: 'loop',
 				}}
 			>
-				<Icon as={AiOutlineLoading3Quarters} w={24} h={24} />
+				<Icon as={AiOutlineLoading3Quarters} w="inherit" height="inherit" />
 			</ChakraBox>
 		</Container>
 	);
