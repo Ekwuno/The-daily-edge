@@ -1,11 +1,11 @@
-import { Button, Flex, Icon, Image, Link } from '@chakra-ui/react';
 import React from 'react';
+import { Button, Flex, Icon, Image, Link } from '@chakra-ui/react';
 import { AiFillGithub } from 'react-icons/ai';
 import { MdLogout } from 'react-icons/md';
 import { useAuth } from '../context/AuthContext';
 import { getFormattedGithubUrl } from '../utils/urlFormatter';
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
 	const { user, logout } = useAuth();
 	return (
 		<Flex align="center" justify="space-between" px={4} py={2} boxShadow="sm">

@@ -1,4 +1,4 @@
-export async function onRequestGet({ request, env }) {
+export const onRequestGet: ({ env:Env }) => Promise<Response> = async ({ env }) => {
 	try {
 		const value = await env.comment_db.list();
 		const comments = await Promise.all(

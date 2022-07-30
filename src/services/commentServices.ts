@@ -1,13 +1,15 @@
+import { Comment, Comments, CreateCommentType, Operation } from "types";
+
 class CommentServices {
 	async getComments() {
 		const response = await fetch("/api/getComments");
 		const data = await response.json();
-		return data;
+		return data as Comments;
 	}
 
 	// The code below sends a POST request to the server to add a comment to the KV store which
 	// is then displayed in the CommentList component.
-	async postComment(comment) {
+	async postComment(comment:CreateCommentType) {
 		const response = await fetch("/api/form", {
 			method: "POST",
 			headers: {
@@ -17,10 +19,10 @@ class CommentServices {
 		});
 		//Parse the response as JSON
 		const data = await response.json();
-		return data; //This is the comment that was added to the KV store
+		return data as Comment; //This is the comment that was added to the KV store
 	}
 
-	async updateComment(comment) {
+	async updateComment(comment:Comment) {
 		const response = await fetch("/api/updateComment", {
 			method: "POST",
 			headers: {
@@ -30,15 +32,15 @@ class CommentServices {
 		});
 		//Parse the response as JSON
 		const data = await response.json();
-		return data;
+		return data as Comment;
 	}
 
-	async updateLikesByID(commentID, operation) {
+	async updateLikesByID(commentID:string, operation:Operation) {
 		const response = await fetch(
 			`https://worker-durable.obinnacodes.workers.dev/${commentID}/${operation}`,
 		)
 		const data = await response.text();
-		return data;
+		return Number(data);
 	}
 }
 

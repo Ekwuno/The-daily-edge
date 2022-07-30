@@ -1,4 +1,4 @@
-export async function onRequestPost({ request, env }) {
+export const onRequestPost:({ request:Request, env:Env }) => Promise<Response> = async ({ request, env }) => {
 	try {
 	  const input = await request.json();
 	  const uuid = crypto.randomUUID();
@@ -12,7 +12,7 @@ export async function onRequestPost({ request, env }) {
 		  "Content-Type": "application/json;charset=utf-8",
 		},
 	  });
-	} catch (err) {
+	} catch (err:any) {
 	  return new Response("Error parsing JSON content", {
 		status: 400,
 		error: err,
