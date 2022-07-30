@@ -12,10 +12,9 @@ export const onRequestGet: ({ env:Env }) => Promise<Response> = async ({ env }) 
 				'Content-Type': 'application/json',
 			},
 		});
-	} catch (error) {
+	} catch (error:any) {
 		return new Response(error.message, {
 			status: 500,
-			error: error.message,
 		});
 	}
 }

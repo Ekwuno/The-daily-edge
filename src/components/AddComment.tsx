@@ -24,6 +24,7 @@ const AddComment: React.FC<Props> = ({ handleAddComment }) => {
 		message: '',
 		likes: 0,
 		comments: [],
+		isLiked: false,
 	};
 	const [values, setValues] = useState(initialState);
 
@@ -40,7 +41,10 @@ const AddComment: React.FC<Props> = ({ handleAddComment }) => {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		try {
-			const comment: Comment = await commentServices.postComment({user: user!, ...values});
+			const comment: Comment = await commentServices.postComment({
+				user: user!,
+				...values,
+			});
 			handleAddComment(comment); //Add the comment to the list of exsiting comments
 			setValues(initialState);
 			toast({
@@ -70,28 +74,28 @@ const AddComment: React.FC<Props> = ({ handleAddComment }) => {
 	}
 
 	return (
-			<form onSubmit={handleSubmit}>
-				<VStack spacing={8} align="flex-start">
-					<FormControl isRequired>
-						<FormLabel htmlFor="message"> Comment</FormLabel>
-						<Textarea
-							id="message"
-							name="message"
-							placeholder="Share you thoughts with us"
-							height={40}
-							value={values.message}
-							onChange={handleChange}
-						/>
-						<FormHelperText>
-							Make the comment as long as you'd like
-						</FormHelperText>
-					</FormControl>
-					<Button type="submit" disabled={!user}>
-						Send
-					</Button>
-				</VStack>
-			</form>
-		)
+		<form onSubmit={handleSubmit}>
+			<VStack spacing={8} align="flex-start">
+				<FormControl isRequired>
+					<FormLabel htmlFor="message"> Comment</FormLabel>
+					<Textarea
+						id="message"
+						name="message"
+						placeholder="Share you thoughts with us"
+						height={40}
+						value={values.message}
+						onChange={handleChange}
+					/>
+					<FormHelperText>
+						Make the comment as long as you'd like
+					</FormHelperText>
+				</FormControl>
+				<Button type="submit" disabled={!user}>
+					Send
+				</Button>
+			</VStack>
+		</form>
+	);
 };
 
 export default AddComment;

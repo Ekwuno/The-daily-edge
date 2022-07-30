@@ -17,12 +17,42 @@ import {
 	FormLabel,
 	FormControl,
 	Textarea,
+	Image,
+	Icon,
 } from '@chakra-ui/react';
-import { AiFillLike, AiOutlineEdit, AiOutlineLike } from 'react-icons/ai';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { BiExpand } from 'react-icons/bi';
+import { FaRegComment } from 'react-icons/fa';
 import commentServices from '../services/commentServices';
 import { Comment as CommentType, Operation } from 'types';
 import { useAuth } from 'context/AuthContext';
 
+type ButtonProps = {
+	icon: React.ReactNode;
+	handleClick: () => void;
+	text: number | string;
+	disabled: boolean;
+};
+const CommentIconButton: React.FC<ButtonProps> = ({
+	icon,
+	handleClick,
+	text,
+	disabled,
+}) => (
+	<HStack
+		as={Button}
+		variant="unstyled"
+		align="center"
+		spacing={1}
+		onClick={handleClick}
+		disabled={disabled}
+	>
+		{icon}
+		<Text color="gray.500" fontSize="sm">
+			{text}
+		</Text>
+	</HStack>
+);
 interface Props {
 	comment: CommentType;
 }
@@ -30,7 +60,6 @@ interface Props {
 const Comment: React.FC<Props> = ({ comment }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [mainComment, setMainComment] = useState(comment);
-	const [isClicked, setIsClicked] = useState(false);
 	const { user } = useAuth();
 
 	const handleUpdateComment = async (comment = mainComment) => {
@@ -45,13 +74,18 @@ const Comment: React.FC<Props> = ({ comment }) => {
 
 	const handleLikes = async () => {
 		try {
-			let operation: Operation = isClicked ? 'decrement' : 'increment';
+			let operation: Operation = mainComment.isLiked
+				? 'decrement'
+				: 'increment';
 			const likes = await commentServices.updateLikesByID(
 				mainComment.uuid,
 				operation
 			);
-			await handleUpdateComment({ ...mainComment, likes });
-			setIsClicked((isClicked) => !isClicked);
+			await handleUpdateComment({
+				...mainComment,
+				likes,
+				isLiked: !mainComment.isLiked,
+			});
 		} catch (error: any) {
 			console.log('error', error.message);
 		}
@@ -72,34 +106,52 @@ const Comment: React.FC<Props> = ({ comment }) => {
 			height="100%"
 			borderWidth={1}
 			p={4}
-			rounded="sm"
+			rounded="md"
 			align="flex-start"
 		>
 			<HStack align="center" justify="space-between" width="100%">
-				<Text>{mainComment.message}</Text>
+				<HStack align="start" spacing={3}>
+					<Image
+						src={comment.user.avatar_url}
+						alt={mainComment.user.name}
+						rounded="full"
+						w={{ base: 10, md: 12 }}
+					/>
+					<VStack align="start" spacing={0}>
+						<Text>{mainComment.user.name}</Text>
+						<Text as="i" fontSize={{ base: 'xs', md: 'sm' }} color="gray.500">
+							@{mainComment.user.username}
+						</Text>
+					</VStack>
+				</HStack>
 				<IconButton
-					icon={<AiOutlineEdit size={15} />}
+					icon={<BiExpand size={15} />}
 					onClick={onOpen}
 					aria-label="Edit button"
 					variant="unstyled"
 				/>
 			</HStack>
-			<Text as="i" fontSize="sm">
-				- {mainComment.user?.name}
+			<Text my={8} fontSize="sm" width="80%">
+				{mainComment.message}
 			</Text>
-			<HStack align="center" spacing={2}>
-				<IconButton
-					aria-label="Like button"
-					variant="unstyled"
+			<HStack align="center" spacing={4}>
+				<CommentIconButton
 					icon={
-						isClicked ? <AiFillLike size={20} /> : <AiOutlineLike size={20} />
+						<Icon
+							aria-label="Like button"
+							as={mainComment.isLiked ? AiFillHeart : AiOutlineHeart}
+						/>
 					}
-					onClick={handleLikes}
+					handleClick={handleLikes}
+					text={mainComment.likes}
 					disabled={!user}
 				/>
-				<Text color="gray.500" fontSize="sm">
-					{mainComment.likes} likes
-				</Text>
+				<CommentIconButton
+					icon={<Icon aria-label="Like button" as={FaRegComment} />}
+					handleClick={onOpen}
+					text={mainComment.comments.length}
+					disabled={false}
+				/>
 			</HStack>
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />

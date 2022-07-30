@@ -15,7 +15,6 @@ export const onRequestPost:({ request:Request, env:Env }) => Promise<Response> =
 	} catch (err:any) {
 	  return new Response("Error parsing JSON content", {
 		status: 400,
-		error: err,
 	  });
 	}
   }

@@ -4,7 +4,7 @@ export const onRequestPost:({ request:Request, env:Env }) => Promise<Response> =
 	try {
 		const body = await request.json();
 		const token = await exchangeCodeForToken(body.code, env);
-		const user = await fetchUser(token, env);
+		const user: any = await fetchUser(token, env);
 		const formattedUser = await formatUserResponse(user);
 
 		await env.kv_userDatabase.put(
@@ -61,6 +61,7 @@ async function fetchUser(token:any, env:any) {
 async function formatUserResponse(user:any) {
 	return {
 		name: user.name,
+		username: user.login,
 		id: user.id,
 		avatar_url: user.avatar_url,
 	};
