@@ -23,12 +23,12 @@ export const onRequestPost:({ request:Request, env:Env }) => Promise<Response> =
 }
 
 async function exchangeCodeForToken(code:any, env:any) {
-	const TokenURL = env.TOKEN_ENDPOINT;
+	const TokenURL = env.REACT_APP_TOKEN_ENDPOINT;
 	const oAuthQueryParams = {
-		grant_type: 'authorization_code',
-		redirect_url: env.REDIRECT_URL,
-		client_id: env.CLIENT_ID,
-		client_secret: env.CLIENT_SECRET,
+		grant_type: "authorization_code",
+		redirect_url: env.REACT_APP_REDIRECT_UR,
+		client_id: env.REACT_APP_CLIENT_ID,
+		client_secret: env.REACT_APP_CLIENT_SECRET,
 		code,
 	};
 
@@ -45,7 +45,7 @@ async function exchangeCodeForToken(code:any, env:any) {
 }
 
 async function fetchUser(token:any, env:any) {
-	const userURL = env.RESOURCE_ENDPOINT + 'user';
+	const userURL = env.REACT_APP_RESOURCE_ENDPOINT + "user";
 	const res = await fetch(userURL, {
 		headers: {
 			Authorization: `token ${token}`,
