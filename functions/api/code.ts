@@ -41,7 +41,6 @@ async function exchangeCodeForToken(code:any, env:any) {
 
 	const data = await res.text();
 	const parsedData = qs.parse(data);
-	console.log(parsedData.access_token);
 	return parsedData.access_token;
 }
 // This is a function that uses the access token to get the user information.
@@ -55,7 +54,6 @@ async function fetchUser(token:any, env:any) {
 	});
 
 	const data = await res.json();
-	console.log(data);
 	return data;
 }
 

@@ -46,7 +46,6 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 	const login = async () => {
 		try {
 			const response = await authService.loginViaGithub();
-			console.log('response', response);
 			// Set user information in the local storage and set current user to state
 			localStorage.setItem('user', JSON.stringify(response.user));
 			window.history.pushState({}, '', process.env.REACT_APP_REDIRECT_URL);

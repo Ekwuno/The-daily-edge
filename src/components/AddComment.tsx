@@ -33,7 +33,6 @@ const AddComment: React.FC<Props> = ({ handleAddComment }) => {
 	const handleChange = (
 		e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
-		console.log(values);
 		setValues({
 			...values,
 			[e.currentTarget.name]: e.currentTarget.value,
@@ -59,7 +58,6 @@ const AddComment: React.FC<Props> = ({ handleAddComment }) => {
 				position: 'top-right',
 			});
 		} catch (error: any) {
-			console.log(error.message);
 			toast({
 				title: 'Error adding comment',
 				description: 'Something went wrong',
