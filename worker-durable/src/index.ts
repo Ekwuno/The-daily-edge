@@ -20,36 +20,36 @@ export interface Env {
 }
 
 // Worker
-export default {
-	async fetch(
-		request: Request,
-		env: Env,
-		ctx: ExecutionContext
-	): Promise<Response> {
-		let url = new URL(request.url);
-		let [_, commentID, operation] = url.pathname.split("/"); // Split the path into an array
-		let id = env.Learning_DurableObjects.idFromName(commentID); // Create a new unique ID
-		let stub = env.Learning_DurableObjects.get(id); // Get an instance of Durable Object from the id
-		return stub.fetch(request); // Fetch the request
-	},
+"use strict";
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': '*',
+  'Access-Control-Allow-Methods': 'GET,HEAD,POST,OPTIONS',
+  'Access-Control-Max-Age': '86400',
 };
 
-
-// Durable Object
-
-export class DurableObject implements DurableObject {
+// src/index.ts
+var src_default = {
+	async fetch(request: Request, env: Env, ctx: ExecutionContext) {
+		let url = new URL(request.url);
+		let [_, commentID, operation] = url.pathname.split("/");
+		let id = env.Learning_DurableObjects.idFromName(commentID);
+		let stub = env.Learning_DurableObjects.get(id);
+		// request.headers.set('Origin', url.origin);
+		return stub.fetch(request);
+	},
+};
+var DurableObject = class {
 	state: DurableObjectState;
 	env: Env;
 	constructor(state: DurableObjectState, env: Env) {
 		this.state = state;
 		this.env = env;
 	}
-
-
-
 	async fetch(request: Request) {
 		let url = new URL(request.url);
-		let value:number = (await this.state.storage.get("likes") || 0);
+		let value:number = (await this.state.storage.get("likes")) || 0;
 		if (url.pathname.endsWith("/increment")) {
 			value++;
 			await this.state.storage.put("likes", value);
@@ -57,6 +57,14 @@ export class DurableObject implements DurableObject {
 			value--;
 			await this.state.storage.put("likes", value);
 		}
-		return new Response(`${value}`);
+		return new Response(`${value}`, {
+			headers: { ...corsHeaders },
+		});
+		// }
 	}
-}
+};
+export {
+  DurableObject ,
+  src_default as default
+};
+//# sourceMappingURL=index.js.map

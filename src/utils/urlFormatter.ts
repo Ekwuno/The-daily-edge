@@ -1,5 +1,6 @@
 import qs from 'query-string';
 
+// This is a service class that handles the authentication of the user by sending a request to the server to get a code.
 export const getFormattedGithubUrl = () => {
 	const oAuthQueryParams = {
 		response_type: 'code',

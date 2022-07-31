@@ -34,7 +34,7 @@ class CommentServices {
 		const data = await response.json();
 		return data as Comment;
 	}
-
+	// The code below sends a request to the Durable Object
 	async updateLikesByID(commentID:string, operation:Operation) {
 		const response = await fetch(
 			`https://worker-durable.obinnacodes.workers.dev/${commentID}/${operation}`,

@@ -50,7 +50,7 @@ interface Props {
 const Comment: React.FC<Props> = ({ comment }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [mainComment, setMainComment] = useState(comment);
-	const { user } = useAuth();
+	const { user } = useAuth(); //Get the user from the context
 	const btnRef = React.useRef<HTMLButtonElement>(null);
 
 	const handleUpdateComment = async (comment = mainComment) => {
@@ -61,7 +61,7 @@ const Comment: React.FC<Props> = ({ comment }) => {
 			console.log('error');
 		}
 	};
-
+	// The function below checks if the user comment is liked or not. If it is liked, it will change the icon to a filled heart.
 	const handleLikes = async () => {
 		try {
 			let operation: Operation = mainComment.isLiked

@@ -21,11 +21,12 @@ const CommentSection: React.FC = () => {
 			setloading(false);
 		}
 	};
-
+	// adds a new comment to the list of comments
 	const handleAddComment = (comment:Comment) => {
 		setComments([comment, ...comments]);
 	};
 
+	// Fetch the existing comments on component mount and set the loading state to false
 	useEffect(() => {
 		handleFetchComments();
 	}, []);

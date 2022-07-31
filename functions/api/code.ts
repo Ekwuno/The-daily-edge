@@ -6,7 +6,7 @@ export const onRequestPost:({ request:Request, env:Env }) => Promise<Response> =
 		const token = await exchangeCodeForToken(body.code, env);
 		const user: any = await fetchUser(token, env);
 		const formattedUser = await formatUserResponse(user);
-
+		// Add the user information to the KV store called kv_userDatabase
 		await env.kv_userDatabase.put(
 			`${user.id}`,
 			JSON.stringify({ user, token })
@@ -14,7 +14,7 @@ export const onRequestPost:({ request:Request, env:Env }) => Promise<Response> =
 
 		return new Response(JSON.stringify({ user: formattedUser }), {
 			headers: {
-				'Content-Type': 'application/json',
+				"Content-Type": "application/json",
 			},
 		});
 	} catch (error) {
@@ -22,6 +22,7 @@ export const onRequestPost:({ request:Request, env:Env }) => Promise<Response> =
 	}
 }
 
+// This is a function that uses the code from client to get an access token.
 async function exchangeCodeForToken(code:any, env:any) {
 	const TokenURL = env.REACT_APP_TOKEN_ENDPOINT;
 	const oAuthQueryParams = {
@@ -43,7 +44,7 @@ async function exchangeCodeForToken(code:any, env:any) {
 	console.log(parsedData.access_token);
 	return parsedData.access_token;
 }
-
+// This is a function that uses the access token to get the user information.
 async function fetchUser(token:any, env:any) {
 	const userURL = env.REACT_APP_RESOURCE_ENDPOINT + "user";
 	const res = await fetch(userURL, {

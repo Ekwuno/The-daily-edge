@@ -6,6 +6,8 @@ interface Props {
 	comments: Comments;
 }
 
+// This component is a list of comments
+
 const CommentsList:React.FC<Props>= ({ comments })=> {
 	return (
 		<VStack spacing={8} w="100%">

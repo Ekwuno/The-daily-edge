@@ -1,5 +1,8 @@
 import qs from 'query-string';
 import {User} from "types"
+
+// This is a service class that handles the authentication of the user by sending a request to the server with the code.
+// and returns a promise that resolves to the user object.
 class AuthService {
 	async loginViaGithub() {
 		const parsedQuery = qs.parseUrl(window.location.href);

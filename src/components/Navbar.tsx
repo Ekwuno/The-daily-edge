@@ -6,6 +6,8 @@ import { useAuth } from '../context/AuthContext';
 import { getFormattedGithubUrl } from '../utils/urlFormatter';
 import Button from './shared/Button';
 
+// Component to display the user's profile and logout button if authenticated
+
 const Navbar: React.FC = () => {
 	const { user, logout } = useAuth();
 	return (

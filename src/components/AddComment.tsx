@@ -13,10 +13,12 @@ import { useAuth } from 'context/AuthContext';
 import Loading from './Loading';
 import Button from './shared/Button';
 
+// Define proptypes
 interface Props {
 	handleAddComment: (comment: Comment) => void;
 }
 
+// The AddComment component is a form to send a comment to the server, which will then be added to the list of comments through Workers KV store
 const AddComment: React.FC<Props> = ({ handleAddComment }) => {
 	const { user, loading } = useAuth();
 	const toast = useToast();
@@ -41,6 +43,7 @@ const AddComment: React.FC<Props> = ({ handleAddComment }) => {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		try {
+			// Send the comment to the /api/form endpoint. The comment will be added to the list of comments in the Workers KV store
 			const comment: Comment = await commentServices.postComment({
 				user: user!,
 				...values,

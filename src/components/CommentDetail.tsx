@@ -26,6 +26,8 @@ type Props = {
 	handleUpdateComment: (comment: CommentType) => void;
 };
 
+// The CommentDetail component is a modal to show the details of a comment and allows the user to reply to the comment
+
 const CommentDetail: React.FC<Props> = ({
 	isOpen,
 	onClose,
@@ -71,7 +73,7 @@ const CommentDetail: React.FC<Props> = ({
 								name="subComment"
 								value={subComment}
 								maxLength={40}
-								onChange={(e) => setSubComment(e.target.value)}
+								onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSubComment(e.target.value)}
 							/>
 							<Button disabled={!user} onClick={handleSubmit} width="full">
 								Add Comment

@@ -7,6 +7,7 @@ const ChakraBox = chakra(motion.div, {
 	shouldForwardProp: (prop) => isValidMotionProp(prop) || prop === 'children',
 });
 
+// Loading spinner for slower loading times
 const Loading: React.FC = () => {
 	return (
 		<Container
