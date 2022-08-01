@@ -1,6 +1,5 @@
 import qs from "query-string";
 import jwt from "@tsndr/cloudflare-worker-jwt";
-// export const myVerySecretString = "gfddfshgfhd65345234bvcfdgsfsd";
 export const onRequestPost: ({
 	request: Request,
 	env: Env,
