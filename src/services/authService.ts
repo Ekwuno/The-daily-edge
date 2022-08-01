@@ -1,5 +1,6 @@
 import qs from 'query-string';
 import {User} from "types"
+import jwt from "@tsndr/cloudflare-worker-jwt";
 
 // This is a service class that handles the authentication of the user by sending a request to the server with the code.
 // and returns a promise that resolves to the user object.
@@ -15,12 +16,21 @@ class AuthService {
 			headers: { 'Content-Type': 'application/json' },
 		});
 		const data = await response.json();
-		return data as { user: User};
+		return data as { jwtToken: string };
 	}
 
-	getUser() {
-		const user: string | null= localStorage.getItem('user');
-		return user ? JSON.parse(user) as User : null
+	 async getUser() {
+		const decodedstring = process.env.REACT_APP_SECRET_KEY;
+		const token: string | null= localStorage.getItem('token');
+		if (token !== null) { 
+			const verifiedJWT = await jwt.verify(token, decodedstring as string);
+			if(verifiedJWT){
+				const decoded = jwt.decode(token);
+				return decoded.payload as User;
+			}
+			return null
+		}
+		return null;
 	}
 }
 

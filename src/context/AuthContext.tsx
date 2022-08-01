@@ -32,8 +32,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
 	const toast = useToast();
 
-	const getCurrentUser = () => {
-		const response = authService.getUser();
+	const getCurrentUser = async () => {
+		const response = await authService.getUser();
 		setUser(response);
 		setLoading(false);
 	};
@@ -47,9 +47,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 		try {
 			const response = await authService.loginViaGithub();
 			// Set user information in the local storage and set current user to state
-			localStorage.setItem('user', JSON.stringify(response.user));
+			localStorage.setItem('token', response.jwtToken);
 			window.history.pushState({}, '', process.env.REACT_APP_REDIRECT_URL);
-			setUser(response.user);
 			refetch();
 		} catch (error) {
 			toast({
@@ -65,7 +64,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 	};
 
 	const logout = () => {
-		localStorage.removeItem('user');
+		localStorage.removeItem("token");
 		setUser(null);
 		refetch();
 	};
