@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
 	Modal,
 	Text,
@@ -13,10 +13,11 @@ import {
 	Divider,
 	Image,
 	Textarea,
-} from '@chakra-ui/react';
-import { Comment as CommentType, SubComment } from 'types';
-import Button from './shared/Button';
-import { useAuth } from 'context/AuthContext';
+} from "@chakra-ui/react";
+import { Comment as CommentType, SubComment } from "types";
+import Button from "./shared/Button";
+import { useAuth } from "context/AuthContext";
+import { timeDifferenceForDate } from "utils/dateFormatter";
 
 type Props = {
 	isOpen: boolean;
@@ -36,12 +37,13 @@ const CommentDetail: React.FC<Props> = ({
 	handleUpdateComment,
 }) => {
 	const { user } = useAuth();
-	const [subComment, setSubComment] = React.useState('');
+	const [subComment, setSubComment] = React.useState("");
 
 	const handleSubmit = async () => {
 		const newSubComment: SubComment = {
 			user: user!,
 			message: subComment,
+			timestamp: new Date(),
 		};
 
 		const newComment = {
@@ -49,7 +51,7 @@ const CommentDetail: React.FC<Props> = ({
 			comments: [...comment.comments, newSubComment],
 		};
 		handleUpdateComment(newComment);
-		setSubComment('');
+		setSubComment("");
 	};
 
 	return (
@@ -58,7 +60,7 @@ const CommentDetail: React.FC<Props> = ({
 			onClose={onClose}
 			finalFocusRef={btnRef}
 			scrollBehavior="inside"
-			size={'xl'}
+			size={"xl"}
 		>
 			<ModalOverlay />
 			<ModalContent>
@@ -73,7 +75,9 @@ const CommentDetail: React.FC<Props> = ({
 								name="subComment"
 								value={subComment}
 								maxLength={40}
-								onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSubComment(e.target.value)}
+								onChange={(e: {
+									target: { value: React.SetStateAction<string> };
+								}) => setSubComment(e.target.value)}
 							/>
 							<Button disabled={!user} onClick={handleSubmit} width="full">
 								Add Comment
@@ -93,6 +97,7 @@ const CommentDetail: React.FC<Props> = ({
 										p={4}
 										rounded="md"
 										align="flex-start"
+										key={comment.user.id}
 									>
 										<HStack align="start" spacing={3}>
 											<Image
@@ -105,10 +110,13 @@ const CommentDetail: React.FC<Props> = ({
 												<Text>{comment.user.name}</Text>
 												<Text
 													as="i"
-													fontSize={{ base: 'xs', md: 'sm' }}
+													fontSize={{ base: "xs", md: "sm" }}
 													color="gray.500"
 												>
 													@{comment.user.username}
+												</Text>
+												<Text my={8} fontSize="xs" width="80%" noOfLines={2}>
+													{timeDifferenceForDate(comment.timestamp)}
 												</Text>
 											</VStack>
 										</HStack>

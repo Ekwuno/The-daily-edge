@@ -16,6 +16,7 @@ import commentServices from '../services/commentServices';
 import { Comment as CommentType, Operation } from 'types';
 import { useAuth } from 'context/AuthContext';
 import CommentDetail from './CommentDetail';
+import { timeDifferenceForDate } from 'utils/dateFormatter';
 
 type ButtonProps = {
 	icon: React.ReactNode;
@@ -103,6 +104,9 @@ const Comment: React.FC<Props> = ({ comment }) => {
 						<Text as="i" fontSize={{ base: 'xs', md: 'sm' }} color="gray.500">
 							@{mainComment.user.username}
 						</Text>
+							<Text my={8} fontSize="xs" width="80%" noOfLines={2}>
+				{timeDifferenceForDate(mainComment.timestamp)}
+			</Text>
 					</VStack>
 				</HStack>
 				<IconButton
@@ -116,6 +120,7 @@ const Comment: React.FC<Props> = ({ comment }) => {
 			<Text my={8} fontSize="sm" width="80%" noOfLines={2}>
 				{mainComment.message}
 			</Text>
+			
 			<HStack align="center" spacing={4}>
 				<CommentIconButton
 					icon={
@@ -134,6 +139,8 @@ const Comment: React.FC<Props> = ({ comment }) => {
 					text={mainComment.comments.length}
 					disabled={false}
 				/>
+			
+				
 			</HStack>
 			<CommentDetail
 				isOpen={isOpen}

@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
 				objectFit="cover"
 				rounded="full"
 			/> */}
-			<Icon as={AiFillBook} size="2xl" w={8} h={8} />
+			<Icon as={AiFillBook} w={8} h={8} />
 			{user ? (
 				<Flex gap={4}>
 					<Image

@@ -27,6 +27,7 @@ const AddComment: React.FC<Props> = ({ handleAddComment }) => {
 		likes: 0,
 		comments: [],
 		isLiked: false,
+		timestamp: new Date(),
 	};
 	const [values, setValues] = useState(initialState);
 

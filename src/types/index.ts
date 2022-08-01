@@ -4,6 +4,7 @@ export interface Comment  {
  message: string;
  likes: number;
  isLiked: boolean;
+ timestamp: Date;
  comments: SubComment[]
 }
 
@@ -22,6 +23,7 @@ export type User = {
 export type CreateCommentType = Omit<Comment, "uuid">
 
 export type SubComment = {
-    user: User;
-    message: string;
-}
+	user: User;
+	message: string;
+	timestamp: Date;
+};
