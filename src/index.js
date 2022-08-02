@@ -1,4 +1,4 @@
-import { ChakraProvider, Container } from '@chakra-ui/react';
+import { ChakraProvider, Container, ColorModeScript } from "@chakra-ui/react";
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
@@ -11,7 +11,8 @@ root.render(
 	<React.StrictMode>
 		<AuthProvider>
 			<ChakraProvider theme={theme}>
-				<Container maxW="container.lg" p={0} bg="white" minH="100vh">
+				<ColorModeScript initialColorMode={theme.config.initialColorMode} />
+				<Container maxW="container.lg" p={0}  minH="100vh">
 					<App />
 				</Container>
 			</ChakraProvider>
