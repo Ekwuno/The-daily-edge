@@ -23,7 +23,7 @@ own of how the components are used
 <img width="1143" alt="Screenshot 2022-08-01 at 10 43 09" src="https://user-images.githubusercontent.com/35943047/182391478-c0467eb2-21d2-4b00-9984-9fca389648e7.png">
 
 
-All Pages Functions are under `functions/api` folder. The 
+All Pages Functions are under `functions/api` folder. The React components are in the `src/components`.
 
 # Added resources
 - [Learn more about Pages Functions](https://developers.cloudflare.com/pages/platform/functions/)
